@@ -535,6 +535,8 @@ void OvmsServerV3::IncomingEvent(std::string event, void* data)
   // Publish the event, if we are connected...
   if (m_mgconn == NULL) return;
   if (!StandardMetrics.ms_s_v3_connected->AsBool()) return;
+  // Don't publish clock events
+  if (event.substr(0, 6) == "clock.") return;
 
   std::string topic(m_topic_prefix);
   topic.append("event");
